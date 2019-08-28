@@ -46,31 +46,32 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-
 //virtual field
-userSchema.virtual('password')
-.set((password) => {
-    this._password = password
-    this.salt = uuidv1()
-    this.hashed_password = this.encryptPassword(password)
-})
-.get(() => {
-    return this._password
-})
+userSchema
+  .virtual("password")
+  .set(function(password) {
+    this._password = password;
+    this.salt = uuidv1();
+    this.hashed_password = this.encryptPassword(password);
+  })
+  .get(() => {
+    return this._password;
+  });
 
 userSchema.methods = {
-    encryptPassword: function(password) {
-        if(!password){
-            return '';
-        }
-        try {
-            return crypto.createHmac('sha1', this.salt)
-                            .update(password)
-                            .digest('hex')
-        }catch(err){
-            return ''
-        }
+  encryptPassword: function(password) {
+    if (!password) {
+      return "";
     }
-}
+    try {
+      return crypto
+        .createHmac("sha1", this.salt)
+        .update(password)
+        .digest("hex");
+    } catch (err) {
+      return "";
+    }
+  }
+};
 
 module.exports = mongoose.model("User", userSchema);
