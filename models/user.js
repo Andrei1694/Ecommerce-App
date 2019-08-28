@@ -8,14 +8,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
       required: true,
-      maxlength: 32
+      maxlength: 32,
+      
     },
 
     email: {
       type: String,
       trim: true,
       required: true,
-      maxlength: 32
+      unique: 32
     },
 
     hashed_password: {
@@ -43,7 +44,8 @@ const userSchema = new mongoose.Schema(
       default: []
     }
   },
-  { timestamps: true }
+  { timestamps: true },
+
 );
 
 //virtual field
@@ -73,5 +75,7 @@ userSchema.methods = {
     }
   }
 };
+
+
 
 module.exports = mongoose.model("User", userSchema);
